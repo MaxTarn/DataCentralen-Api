@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCentralen-Api", "DataCentralen-Api\DataCentralen-Api.csproj", "{9CAE09E2-0372-42D0-84F6-E107CC2F4847}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCentralen-Db", "DataCentralen-Db\DataCentralen-Db.csproj", "{955BC819-51AB-4E5D-992B-EACF96342177}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CAE09E2-0372-42D0-84F6-E107CC2F4847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAE09E2-0372-42D0-84F6-E107CC2F4847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAE09E2-0372-42D0-84F6-E107CC2F4847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAE09E2-0372-42D0-84F6-E107CC2F4847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955BC819-51AB-4E5D-992B-EACF96342177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955BC819-51AB-4E5D-992B-EACF96342177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955BC819-51AB-4E5D-992B-EACF96342177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955BC819-51AB-4E5D-992B-EACF96342177}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -13,6 +13,7 @@ namespace DataCentralen_Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+
         private readonly IConfiguration _configuration;
 
         public AuthController(IConfiguration configuration)
@@ -25,8 +26,8 @@ namespace DataCentralen_Api.Controllers
             // Validate the user credentials (this is just a simple example, you should use a user service)
             if (loginRequest.UserName == "name" && loginRequest.Password == "pass")
             {
-                var token = GenerateJwtToken(loginRequest.UserName);
-                return Ok(new { token });
+                string? token = GenerateJwtToken(loginRequest.UserName);
+                return Ok("Bearer " + new { token });
             }
 
             return Unauthorized();
@@ -35,10 +36,12 @@ namespace DataCentralen_Api.Controllers
         private string GenerateJwtToken(string username)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("ThisIsMyJwtTokenAuthThingKeyThatIsMoreThan32Bytes");
+            var key = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]!);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", username) }),
+                Audience = _configuration["JWT:Audience"],
+                Issuer = _configuration["JWT:Issuer"],
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

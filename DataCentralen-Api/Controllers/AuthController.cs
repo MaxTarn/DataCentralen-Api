@@ -27,7 +27,7 @@ namespace DataCentralen_Api.Controllers
             if (loginRequest.UserName == "name" && loginRequest.Password == "pass")
             {
                 string? token = GenerateJwtToken(loginRequest.UserName);
-                return Ok("Bearer " + new { token });
+                return Ok("Bearer " + token);
             }
 
             return Unauthorized();

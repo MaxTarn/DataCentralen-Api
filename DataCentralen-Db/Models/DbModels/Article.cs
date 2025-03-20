@@ -18,4 +18,5 @@ public class Article
     public DateTime LastEdited { get; set; }
     public int Likes { get; set; }
     public string Content { get; set; } = null!;
+    public string Description { get; set; } = string.Empty;
 }

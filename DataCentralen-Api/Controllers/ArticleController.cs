@@ -29,6 +29,16 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         }
         return Ok(article);
     }
+
+
+    [HttpGet("TitleDescription")]
+    public ActionResult<Article> GetTitleDescription()
+    {
+        var articles = _articleRepo.GetArticleDTO();
+
+        return Ok(articles);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<Article>> Add(Article article)

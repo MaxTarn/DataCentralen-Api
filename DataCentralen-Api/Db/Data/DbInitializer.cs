@@ -19,7 +19,9 @@ namespace DataCentralen_Api.Db.Data
                     Posted = DateTime.UtcNow,
                     LastEdited = DateTime.UtcNow,
                     Likes = 0,
-                    Content = "<p>Heap Sort is a comparison-based sorting algorithm...</p>"
+                    Content = "<p>Heap Sort is a comparison-based sorting algorithm...</p>",
+                    Description = "Bygger en heap och extraherar det största/minsta elementet för att sortera listan"
+
                 },
                 new Article
                 {
@@ -28,7 +30,8 @@ namespace DataCentralen_Api.Db.Data
                     Posted = DateTime.UtcNow,
                     LastEdited = DateTime.UtcNow,
                     Likes = 0,
-                    Content = "<p>Radix Sort is a non-comparative integer sorting algorithm...</p>"
+                    Content = "<p>Radix Sort is a non-comparative integer sorting algorithm...</p>",
+                    Description = "Radix sort grupperar och sorterar siffror från minst signifikant till mest signifikant sifferposition, utan att jämföra element direkt."
                 },
                 new Article
                 {
@@ -37,7 +40,9 @@ namespace DataCentralen_Api.Db.Data
                     Posted = DateTime.UtcNow,
                     LastEdited = DateTime.UtcNow,
                     Likes = 0,
-                    Content = "<p>Insertion Sort works by building a sorted list one element at a time...</p>"
+                    Content = "<p>Insertion Sort works by building a sorted list one element at a time...</p>",
+                    Description ="Insertion sort placerar varje element direkt i sin korrekta position i en sorterad lista."
+
                 },
                 new Article
                 {
@@ -46,7 +51,9 @@ namespace DataCentralen_Api.Db.Data
                     Posted = DateTime.UtcNow,
                     LastEdited = DateTime.UtcNow,
                     Likes = 0,
-                    Content = "<p>Quicksort is a divide-and-conquer algorithm...</p>"
+                    Content = "<p>Quicksort is a divide-and-conquer algorithm...</p>",
+                    Description= "Dela upp listan vid ett pivot och sortera delarna rekursivt"
+
                 },
                 new Article
                 {
@@ -55,7 +62,8 @@ namespace DataCentralen_Api.Db.Data
                     Posted = DateTime.UtcNow,
                     LastEdited = DateTime.UtcNow,
                     Likes = 0,
-                    Content = "<p>Shell Sort is an optimization of Insertion Sort...</p>"
+                    Content = "<p>Shell Sort is an optimization of Insertion Sort...</p>",
+                    Description ="Shell sort sorterar genom att först jämföra element med stora mellanrum, som successivt minskas tills listan är helt sorterad."
                 },
                 new Article
                 {

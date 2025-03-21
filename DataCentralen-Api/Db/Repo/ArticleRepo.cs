@@ -1,6 +1,7 @@
 ﻿using DataCentralen_Api.DbContext;
 
 using DataCentralen_Db.Models.DbModels;
+using DataCentralen_Db.Models.DTOModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,13 @@ public class ArticleRepo(AppDbContext context)
     {
         await _context.Articles.AddAsync(article);
         await _context.SaveChangesAsync();
+    }
+
+    public IQueryable<ArticleTitleAndDescription> GetArticleDTO()
+    {
+        IQueryable<ArticleTitleAndDescription> articles = _context.Articles.Where(article => article.Description.Length > 0).Select( article => new ArticleTitleAndDescription() { Id = article.Id, Title = article.Title, Description = article.Description});
+
+        return articles;
     }
 
     public async Task UpdateAsync(Article article)

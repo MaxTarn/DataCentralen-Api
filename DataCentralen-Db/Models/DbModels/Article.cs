@@ -19,4 +19,9 @@ public class Article
     public int Likes { get; set; }
     public string Content { get; set; } = null!;
     public string Description { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty; // If it is a "sortingalgorithm" or "datastructure" or "other"
+
+    // To store colorcodes for the cards in frontend
+    public string? ColorCodeOne { get; set; }
+    public string? ColorCodeTwo { get; set; }
 }

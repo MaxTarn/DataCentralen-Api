@@ -39,6 +39,13 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         return Ok(articles);
     }
 
+    [HttpGet("CardDisplay")]
+    public ActionResult<Article> GetCardDisplay()
+    {
+        var articles = _articleRepo.GetArticleCardDTO();
+        return Ok(articles);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<Article>> Add(Article article)

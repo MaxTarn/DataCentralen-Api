@@ -42,14 +42,14 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         return Ok(articles);
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Article>> Add(Article article)
     {
         await _articleRepo.AddAsync(article);
         return CreatedAtAction(nameof(GetById), new { id = article.Id }, article);
     }
-    //[Authorize]
+    [Authorize]
     [HttpPut("with-file/{id}")]
     public async Task<IActionResult> UploadFile(int id, IFormFile file)
     {

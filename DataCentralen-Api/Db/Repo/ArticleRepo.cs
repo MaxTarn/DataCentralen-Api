@@ -34,7 +34,7 @@ public class ArticleRepo(AppDbContext context)
 
     public IQueryable<ArticleTitleAndDescription> GetArticleDTO()
     {
-        IQueryable<ArticleTitleAndDescription> articles = _context.Articles.Where(article => article.Description.Length > 0).Select( article => new ArticleTitleAndDescription() { Id = article.Id, Title = article.Title, Description = article.Description});
+        IQueryable<ArticleTitleAndDescription> articles = _context.Articles.Where(article => article.Description.Length > 0).Select(article => new ArticleTitleAndDescription() { Id = article.Id, Title = article.Title, Description = article.Description });
 
         return articles;
     }
@@ -42,6 +42,7 @@ public class ArticleRepo(AppDbContext context)
     public async Task UpdateAsync(Article article)
     {
         _context.Articles.Update(article);
+        _context.Entry(article).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 

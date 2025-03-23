@@ -57,8 +57,12 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
 
         if (file.Length > MaxFileSize) return BadRequest("File size exceeds the maximum limit of 10 MB.");
 
-        //Maybe there is a better way to ensure file is .html ??
-        if (!file.FileName.EndsWith(".html", StringComparison.OrdinalIgnoreCase)) return BadRequest("Only HTML files are allowed.");
+        // Ensure file is .html or .md
+        if (!file.FileName.EndsWith(".html", StringComparison.OrdinalIgnoreCase) &&
+            !file.FileName.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+        {
+            return BadRequest("Only HTML and Markdown files are allowed.");
+        }
 
         // Read the file 
         string fileContent;
@@ -74,8 +78,8 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error reading the file.");
         }
 
-        // Assuming the file content is already in HTML format
-        string htmlContent = fileContent;
+        // Assuming the file content is already in HTML or Markdown format
+        string content = fileContent;
 
         // Find the article by id
         var article = await _articleRepo.GetByIdAsync(id);
@@ -85,7 +89,7 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         }
 
         // Update the article content
-        article.Content = htmlContent;
+        article.Content = content;
         await _articleRepo.UpdateAsync(article);
 
         return NoContent();

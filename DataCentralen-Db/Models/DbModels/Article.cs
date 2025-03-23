@@ -12,11 +12,11 @@ public class Article
     [Key]
     public int Id { get; set; }
 
-    public string Title { get; set; } = null!;
-    public string Author { get; set; }
-    public DateTime Posted { get; set; }
-    public DateTime LastEdited { get; set; }
-    public int Likes { get; set; }
-    public string Content { get; set; } = null!;
-    public string Description { get; set; } = string.Empty;
+    public string? Title { get; set; } = null!;
+    public string? Author { get; set; }
+    public DateTime? Posted { get; set; }
+    public DateTime? LastEdited { get; set; }
+    public int? Likes { get; set; }
+    public string? Content { get; set; } = null!;
+    public string? Description { get; set; } = string.Empty;
 }

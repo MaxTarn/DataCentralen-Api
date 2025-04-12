@@ -39,6 +39,13 @@ public class ArticleRepo(AppDbContext context)
         return articles;
     }
 
+    public IQueryable<ArticleCardDisplay> GetArticleCardDTO()
+    {
+        IQueryable<ArticleCardDisplay> articles = _context.Articles.Where(article => article.Description.Length > 0).Select(article => new ArticleCardDisplay() { Id = article.Id, Title = article.Title, Description = article.Description, Type = article.Type, ColorCodeOne = article.ColorCodeOne, ColorCodeTwo = article.ColorCodeTwo });
+
+        return articles;
+    }
+
     public async Task UpdateAsync(Article article)
     {
         _context.Articles.Update(article);

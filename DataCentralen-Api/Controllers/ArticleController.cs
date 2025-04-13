@@ -1,4 +1,5 @@
 ﻿using DataCentralen_Db.Models.DbModels;
+using DataCentralen_Db.Models.DTOModels;
 using DataCentralen_Db.Repo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -97,6 +98,38 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
 
         // Update the article content
         article.Content = content;
+        await _articleRepo.UpdateAsync(article);
+
+        return NoContent();
+    }
+
+
+
+    [HttpPut("with-file-as-string")]
+    public async Task<IActionResult> UploadFileAsString(DtoArticleFileAsString requestObj)
+    {
+        if (string.IsNullOrWhiteSpace(requestObj.FileAsRawString)) return BadRequest("No content provided.");
+        if (Encoding.UTF8.GetByteCount(requestObj.FileAsRawString) > MaxFileSize) return BadRequest("Content size exceeds the maximum limit of 10 MB.");
+        if (requestObj.Id == null) return BadRequest("ERROR: Given Id was null");
+
+
+        Article? article = null;
+        // Find the article by id
+        try
+        {
+            article = await _articleRepo.GetByIdAsync((int)requestObj.Id);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the article.");
+        }
+
+        if (article == null) return NotFound("Article not found.");
+
+
+
+        // Update the article content
+        article.Content = requestObj.FileAsRawString;
         await _articleRepo.UpdateAsync(article);
 
         return NoContent();

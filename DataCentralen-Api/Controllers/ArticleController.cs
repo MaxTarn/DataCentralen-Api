@@ -126,4 +126,27 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         // Simple conversion to HTML (you can customize this as needed)
         return $"<html><body><pre>{System.Net.WebUtility.HtmlEncode(content)}</pre></body></html>";
     }
+    [HttpGet("GroupedDropdown")]
+    public async Task<ActionResult> GetGroupedForDropdown()
+    {
+        var allArticles = await _articleRepo.GetArticleCardDTO().ToListAsync();
+
+        var sorting = allArticles
+            .Where(a => a.Type == "Sorteringsalgoritm")
+            .OrderByDescending(a => a.Id)
+            .Take(4)
+            .ToList();
+
+        var structures = allArticles
+            .Where(a => a.Type == "Datastruktur")
+            .OrderByDescending(a => a.Id)
+            .Take(4)
+            .ToList();
+
+        return Ok(new
+        {
+            sortingAlgorithms = sorting,
+            dataStructures = structures
+        });
+    }
 }

@@ -160,7 +160,7 @@ namespace DataCentralen_Api.Db.Data
                 new Article
                 {
                     Title = "HeapSort",
-                    Author = "Emil Åberg",
+                    Author = "Oscar Sommerfors",
                     Posted = DateTime.UtcNow,
                     LastEdited = DateTime.UtcNow,
                     Likes = 0,

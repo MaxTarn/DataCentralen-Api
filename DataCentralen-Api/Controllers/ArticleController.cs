@@ -104,6 +104,7 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
     }
 
 
+    [Authorize]
 
     [HttpPut("with-file-as-string")]
     public async Task<IActionResult> UploadFileAsString(DtoArticleFileAsString requestObj)
@@ -117,7 +118,7 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         // Find the article by id
         try
         {
-            article = await _articleRepo.GetByIdAsync((int)requestObj.Id);
+            article = await _articleRepo.GetByIdAsync((int)requestObj.Id);// Find the article by id
         }
         catch (Exception e)
         {
@@ -131,16 +132,16 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
 
         return NoContent();
     }
-
+    [Authorize]
     [HttpPut("remove-content/{Id}")]
     public async Task<IActionResult> RemoveContent(int? Id)
     {
         if (Id == null) return BadRequest("ERROR: Given Id was null");
         Article? article = null;
-        // Find the article by id
+        
         try
         {
-            article = await _articleRepo.GetByIdAsync((int)Id);
+            article = await _articleRepo.GetByIdAsync((int)Id);// Find the article by id
         }
         catch (Exception e)
         {

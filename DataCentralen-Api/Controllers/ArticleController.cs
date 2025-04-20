@@ -135,6 +135,29 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("remove-content/{Id}")]
+    public async Task<IActionResult> RemoveContent(int? Id)
+    {
+        if (Id == null) return BadRequest("ERROR: Given Id was null");
+        Article? article = null;
+        // Find the article by id
+        try
+        {
+            article = await _articleRepo.GetByIdAsync((int)Id);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the article.");
+        }
+
+        if (article == null) return NotFound("Article not found.");
+        article.Content = "";
+        await articleRepo.UpdateAsync(article);
+        return NoContent();
+
+    }
+
+
     [Authorize]
     [HttpPut("{id}")]
     public async Task<ActionResult<Article>> Update(int id, Article article)

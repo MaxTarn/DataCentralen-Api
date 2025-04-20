@@ -126,9 +126,6 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
 
         if (article == null) return NotFound("Article not found.");
 
-
-
-        // Update the article content
         article.Content = requestObj.FileAsRawString;
         await _articleRepo.UpdateAsync(article);
 

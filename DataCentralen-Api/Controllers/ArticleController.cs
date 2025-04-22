@@ -127,20 +127,20 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
         return $"<html><body><pre>{System.Net.WebUtility.HtmlEncode(content)}</pre></body></html>";
     }
     [HttpGet("GroupedDropdown")]
-    public async Task<ActionResult> GetGroupedForDropdown()
+    public async Task<ActionResult> GetGroupedForDropdown([FromQuery] int amount = 4)
     {
         var allArticles = await _articleRepo.GetArticleCardDTO().ToListAsync();
 
         var sorting = allArticles
             .Where(a => a.Type == "Sorteringsalgoritm")
             .OrderByDescending(a => a.Id)
-            .Take(4)
+            .Take(amount)
             .ToList();
 
         var structures = allArticles
             .Where(a => a.Type == "Datastruktur")
             .OrderByDescending(a => a.Id)
-            .Take(4)
+            .Take(amount)
             .ToList();
 
         return Ok(new

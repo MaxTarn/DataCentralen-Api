@@ -223,6 +223,32 @@ namespace DataCentralen_Api.Db.Data
                     ColorCodeOne = "#FFDD57",
                     ColorCodeTwo = "#FFF4A7"
                 },
+                new Article
+                {
+                    Title = "Counting Sort",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    Content = "<p>Counting Sort counts occurrences of each element to determine their positions in the sorted output.</p>",
+                    Description = "Räknar förekomster av varje element för att bygga en sorterad lista utan jämförelser.",
+                    Type = "Sorteringsalgoritm",
+                    ColorCodeOne = "#FFB347",
+                    ColorCodeTwo = "#FFE5CC"
+                },
+                new Article
+                {
+                    Title = "Shell Sort",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    Content = "<p>Shell Sort sorts elements at specific intervals, reducing the gap each iteration to improve performance.</p>",
+                    Description = "Sorterar genom jämförelser med avstånd som minskar gradvis tills listan är sorterad.",
+                    Type = "Sorteringsalgoritm",
+                    ColorCodeOne = "#B0E0E6",
+                    ColorCodeTwo = "#E0F7FA"
+                }, 
 
                 // Datastrukturer
                 new Article
@@ -302,7 +328,33 @@ namespace DataCentralen_Api.Db.Data
                     Type = "Datastruktur",
                     ColorCodeOne = "#8FBC8F",
                     ColorCodeTwo = "#C9E1D4"
-                }
+                },
+                new Article
+                {
+                    Title = "Graph",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    Content = "<p>A graph is a structure of nodes connected by edges, used to model relationships and networks.</p>",
+                    Description = "Modellerar relationer genom noder och kanter, används inom nätverk och ruttplanering.",
+                    Type = "Datastruktur",
+                    ColorCodeOne = "#FF7F7F",
+                    ColorCodeTwo = "#FFDCDC"
+                },
+                new Article
+                {
+                    Title = "Heap",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    Content = "<p>A heap is a tree-based structure used for priority queues and efficient max/min retrieval.</p>",
+                    Description = "Trädbaserad struktur som används för prioritetsköer och effektiv åtkomst till min/max.",
+                    Type = "Datastruktur",
+                    ColorCodeOne = "#ADD8E6",
+                    ColorCodeTwo = "#E3F2FD"
+                },
             };
 
 

@@ -1,4 +1,5 @@
 ﻿using DataCentralen_Db.Models.DbModels;
+using DataCentralen_Db.Models.DTOModels;
 using DataCentralen_Db.Repo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -101,6 +102,59 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
 
         return NoContent();
     }
+
+
+    [Authorize]
+
+    [HttpPut("with-file-as-string")]
+    public async Task<IActionResult> UploadFileAsString(DtoArticleFileAsString requestObj)
+    {
+        if (string.IsNullOrWhiteSpace(requestObj.FileAsRawString)) return BadRequest("No content provided.");
+        if (Encoding.UTF8.GetByteCount(requestObj.FileAsRawString) > MaxFileSize) return BadRequest("Content size exceeds the maximum limit of 10 MB.");
+        if (requestObj.Id == null) return BadRequest("ERROR: Given Id was null");
+
+
+        Article? article = null;
+        // Find the article by id
+        try
+        {
+            article = await _articleRepo.GetByIdAsync((int)requestObj.Id);// Find the article by id
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the article.");
+        }
+
+        if (article == null) return NotFound("Article not found.");
+
+        article.Content = requestObj.FileAsRawString;
+        await _articleRepo.UpdateAsync(article);
+
+        return NoContent();
+    }
+    [Authorize]
+    [HttpPut("remove-content/{Id}")]
+    public async Task<IActionResult> RemoveContent(int? Id)
+    {
+        if (Id == null) return BadRequest("ERROR: Given Id was null");
+        Article? article = null;
+        
+        try
+        {
+            article = await _articleRepo.GetByIdAsync((int)Id);// Find the article by id
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the article.");
+        }
+
+        if (article == null) return NotFound("Article not found.");
+        article.Content = "";
+        await articleRepo.UpdateAsync(article);
+        return NoContent();
+
+    }
+
 
     [Authorize]
     [HttpPut("{id}")]

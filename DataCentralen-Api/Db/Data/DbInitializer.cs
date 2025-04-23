@@ -314,6 +314,18 @@ namespace DataCentralen_Api.Db.Data
                 context.Articles.AddRange(newArticles);
                 context.SaveChanges();
             }
+            if (!context.Users.Any())
+            {
+                var adminUser = new AppUser
+                {
+                    UserName = "admin",
+                    Role = "Admin",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123")
+                };
+
+                context.Users.Add(adminUser);
+                context.SaveChanges();
+            }
         }
     }
 }

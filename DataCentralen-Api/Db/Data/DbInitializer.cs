@@ -319,7 +319,7 @@ namespace DataCentralen_Api.Db.Data
                 var adminUser = new AppUser
                 {
                     UserName = "admin",
-                    Role = "Admin",
+                    IsAdmin = true,
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123")
                 };
 

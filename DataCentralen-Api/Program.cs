@@ -69,6 +69,10 @@ namespace DataCentralen_Api
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+            });
 
             // CORS Policy
             builder.Services.AddCors(options =>

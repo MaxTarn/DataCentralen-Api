@@ -62,21 +62,18 @@ namespace DataCentralen_Api.Controllers
             return tokenHandler.WriteToken(token);
         }
 
-        [HttpGet("userinfo")]
+        [Authorize]
+        [HttpPost("is-admin")]
         public IActionResult GetUserInfo()
         {
             // These will be set from the claims in the token!
             var username = User.FindFirstValue(ClaimTypes.Name);
             var role = User.FindFirstValue(ClaimTypes.Role);
 
-            if (username == null)
-                return Unauthorized("Ingen giltig användare hittades i token.");
+            if (username == null) return Unauthorized(false);
+            if (string.IsNullOrEmpty(role)) return Unauthorized(false);
 
-            return Ok(new
-            {
-                username,
-                role
-            });
+            return Ok(true);
         }
     }
 }

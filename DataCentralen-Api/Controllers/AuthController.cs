@@ -1,7 +1,11 @@
-﻿using DataCentralen_Db.Models.DTOModels;
+﻿using DataCentralen_Api.DbContext;
+using DataCentralen_Db.Models.DbModels;
+using DataCentralen_Db.Models.DTOModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,25 +19,29 @@ namespace DataCentralen_Api.Controllers
     {
 
         private readonly IConfiguration _configuration;
+        private readonly AppDbContext _context;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration, AppDbContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
         [HttpPost("login")]
-        public IActionResult Login([FromBody] Login loginRequest)
+        public async Task<IActionResult> Login([FromBody] Login loginRequest)
         {
-            // Validate the user credentials (this is just a simple example, you should use a user service)
-            if (loginRequest.UserName == "name" && loginRequest.Password == "pass")
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserName == loginRequest.UserName);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.PasswordHash))
             {
-                string? token = GenerateJwtToken(loginRequest.UserName);
-                return Ok("Bearer " + token);
+                return Unauthorized("Felaktigt användarnamn eller lösenord");
             }
 
-            return Unauthorized();
+            string token = GenerateJwtToken(user);
+            return Ok("Bearer " + token);
         }
 
-        private string GenerateJwtToken(string username)
+        private string GenerateJwtToken(AppUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]!);
@@ -41,12 +49,32 @@ namespace DataCentralen_Api.Controllers
             {
                 Audience = _configuration["JWT:Audience"],
                 Issuer = _configuration["JWT:Issuer"],
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }),
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin":"")
+                }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        [Authorize]
+        [HttpPost("is-admin")]
+        public IActionResult GetUserInfo()
+        {
+            // These will be set from the claims in the token!
+            var username = User.FindFirstValue(ClaimTypes.Name);
+            var role = User.FindFirstValue(ClaimTypes.Role);
+
+            if (username == null) return Unauthorized(false);
+            if (string.IsNullOrEmpty(role)) return Unauthorized(false);
+
+            return Ok(true);
+        }
     }
 }
+

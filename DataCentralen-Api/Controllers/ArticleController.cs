@@ -111,8 +111,24 @@ public class ArticleController(ArticleRepo articleRepo) : ControllerBase
             return BadRequest();
         }
         await _articleRepo.UpdateAsync(article);
+        return Ok(article);
+    }
+
+    [HttpPut("{id}/likes")]
+    public async Task<IActionResult> UpdateLikes(int id, [FromQuery] bool increment)
+    {
+        var article = await _articleRepo.GetByIdAsync(id);
+        if (article == null)
+        {
+            return NotFound("Article not found.");
+        }
+
+        await _articleRepo.UpdateLikesAsync(id, increment);
+
         return NoContent();
     }
+
+
 
     [Authorize]
     [HttpDelete("{id}")]

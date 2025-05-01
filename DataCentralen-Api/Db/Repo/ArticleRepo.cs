@@ -53,6 +53,18 @@ public class ArticleRepo(AppDbContext context)
         await _context.SaveChangesAsync();
     }
 
+    public async Task UpdateLikesAsync(int id, bool increment)
+    {
+        var article = await _context.Articles.FindAsync(id);
+        if (article != null)
+        {
+            article.Likes += increment ? 1 : -1;
+            if (article.Likes < 0) article.Likes = 0;
+            _context.Entry(article).Property(a => a.Likes).IsModified = true;
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task DeleteAsync(int id)
     {
         var article = await _context.Articles.FindAsync(id);

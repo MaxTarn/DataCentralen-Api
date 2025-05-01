@@ -143,6 +143,7 @@ namespace DataCentralen_Api.Db.Data
 
             var articles = new List<Article>
             {
+
                 //// Sorteringsalgoritmer
                 //new Article
                 //{
@@ -183,7 +184,6 @@ namespace DataCentralen_Api.Db.Data
                 //    ColorCodeOne = "#A6E386",
                 //    ColorCodeTwo = "#E1EEDA"
                 //},
-
                 //new Article
                 //{
                 //    Title = "InsertionSort",

@@ -53,7 +53,7 @@ public class ArticleController(ArticleRepo articleRepo, AppDbContext context) : 
     /// </summary>
     /// <returns>A list of articles with titles and descriptions.</returns>
     [HttpGet("TitleDescription")]
-    public ActionResult<Article> GetTitleDescription()
+    public ActionResult<ArticleTitleAndDescription> GetTitleDescription()
     {
         var articles = _articleRepo.GetArticleDTO();
 
@@ -65,7 +65,7 @@ public class ArticleController(ArticleRepo articleRepo, AppDbContext context) : 
     /// </summary>
     /// <returns>A list of articles formatted for card display.</returns>
     [HttpGet("CardDisplay")]
-    public ActionResult<Article> GetCardDisplay()
+    public ActionResult<ArticleCardDisplay> GetCardDisplay()
     {
         var articles = _articleRepo.GetArticleCardDTO();
         return Ok(articles);

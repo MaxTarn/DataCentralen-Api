@@ -222,7 +222,66 @@ public static class DbInitializer
                             Content =
                                 "<p>A tree is a hierarchical data structure consisting of nodes with a parent-child relationship.</p>"
                         }
-                    }
+                    },
+              new Article
+                {
+                    Title = "Counting Sort",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                ArticleContent = new ArticleContentModel{
+                Content = "<p>Counting Sort counts occurrences of each element to determine their positions in the sorted output.</p>"
+                },
+                    
+                    Description = "Räknar förekomster av varje element för att bygga en sorterad lista utan jämförelser.",
+                    Type = "Sorteringsalgoritm",
+                    ColorCodeOne = "#FFB347",
+                    ColorCodeTwo = "#FFE5CC"
+                },
+              new Article
+                {
+                    Title = "Heap",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    ArticleContent = new ArticleContentModel { Content = "<p>A heap is a tree-based structure used for priority queues and efficient max/min retrieval.</p>"},
+                    Description = "Trädbaserad struktur som används för prioritetsköer och effektiv åtkomst till min/max.",
+                    Type = "Datastruktur",
+                    ColorCodeOne = "#ADD8E6",
+                    ColorCodeTwo = "#E3F2FD"
+                },
+              new Article
+                {
+                    Title = "Graph",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    ArticleContent = new ArticleContentModel{
+                      Content = "<p>A graph is a structure of nodes connected by edges, used to model relationships and networks.</p>"
+                    },
+                    Description = "Modellerar relationer genom noder och kanter, används inom nätverk och ruttplanering.",
+                    Type = "Datastruktur",
+                    ColorCodeOne = "#FF7F7F",
+                    ColorCodeTwo = "#FFDCDC"
+                },
+              new Article
+                {
+                    Title = "Shell Sort",
+                    Author = "Oscar Sommerfors",
+                    Posted = DateTime.UtcNow,
+                    LastEdited = DateTime.UtcNow,
+                    Likes = 0,
+                    ArticleContent = new ArticleContentModel{
+                    Content = "<p>Shell Sort sorts elements at specific intervals, reducing the gap each iteration to improve performance.</p>"
+                      },
+                    Description = "Sorterar genom jämförelser med avstånd som minskar gradvis tills listan är sorterad.",
+                    Type = "Sorteringsalgoritm",
+                    ColorCodeOne = "#B0E0E6",
+                    ColorCodeTwo = "#E0F7FA"
+                }, 
                 };
 
 
@@ -232,6 +291,7 @@ public static class DbInitializer
             {
                 foreach (Article article in newArticles)
                 {
+
                     //get data from list, since both shouldnt be added at the same time
                     ArticleContentModel content = article.ArticleContent!;
 
@@ -240,6 +300,7 @@ public static class DbInitializer
                     article.ArticleContentId = null;
                     context.Articles.Add(article);
                     context.SaveChanges();
+
 
 
                     //add article content to the database

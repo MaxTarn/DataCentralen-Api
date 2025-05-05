@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataCentralen_Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250423163856_ini")]
-    partial class ini
+    [Migration("20250429234145_contentChange")]
+    partial class contentChange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,9 @@ namespace DataCentralen_Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ArticleContentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -65,10 +68,6 @@ namespace DataCentralen_Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ColorCodeTwo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -94,7 +93,46 @@ namespace DataCentralen_Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ArticleContentId")
+                        .IsUnique()
+                        .HasFilter("[ArticleContentId] IS NOT NULL");
+
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.ArticleContentModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArticleContents");
+                });
+
+            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.Article", b =>
+                {
+                    b.HasOne("DataCentralen_Db.Models.DbModels.ArticleContentModel", "ArticleContent")
+                        .WithOne("Article")
+                        .HasForeignKey("DataCentralen_Db.Models.DbModels.Article", "ArticleContentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ArticleContent");
+                });
+
+            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.ArticleContentModel", b =>
+                {
+                    b.Navigation("Article");
                 });
 #pragma warning restore 612, 618
         }

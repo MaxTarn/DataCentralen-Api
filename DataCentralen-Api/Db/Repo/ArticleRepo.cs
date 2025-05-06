@@ -18,7 +18,7 @@ public class ArticleRepo(AppDbContext context)
 
     public async Task<IEnumerable<Article>> GetAllAsync()
     {
-        return await _context.Articles.ToListAsync<Article>();
+        return await _context.Articles.ToListAsync();
     }
 
     public async Task<Article?> GetByIdAsync(int id)

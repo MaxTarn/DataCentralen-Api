@@ -22,30 +22,6 @@ namespace DataCentralen_Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.AppUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("DataCentralen_Db.Models.DbModels.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -53,9 +29,6 @@ namespace DataCentralen_Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ArticleContentId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -65,6 +38,10 @@ namespace DataCentralen_Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ColorCodeTwo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -90,46 +67,7 @@ namespace DataCentralen_Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleContentId")
-                        .IsUnique()
-                        .HasFilter("[ArticleContentId] IS NOT NULL");
-
                     b.ToTable("Articles");
-                });
-
-            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.ArticleContentModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ArticleContents");
-                });
-
-            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.Article", b =>
-                {
-                    b.HasOne("DataCentralen_Db.Models.DbModels.ArticleContentModel", "ArticleContent")
-                        .WithOne("Article")
-                        .HasForeignKey("DataCentralen_Db.Models.DbModels.Article", "ArticleContentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("ArticleContent");
-                });
-
-            modelBuilder.Entity("DataCentralen_Db.Models.DbModels.ArticleContentModel", b =>
-                {
-                    b.Navigation("Article");
                 });
 #pragma warning restore 612, 618
         }

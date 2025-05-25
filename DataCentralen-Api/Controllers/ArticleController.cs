@@ -301,6 +301,20 @@ public class ArticleController(ArticleRepo articleRepo, AppDbContext context) : 
         return NoContent();
     }
 
+    [HttpPut("{id}/likes")]
+    public async Task<IActionResult> UpdateLikes(int id, [FromQuery] bool increment)
+    {
+        var article = await _articleRepo.GetByIdAsync(id);
+        if (article == null)
+        {
+            return NotFound("Article not found.");
+        }
+
+        await _articleRepo.UpdateLikesAsync(id, increment);
+
+        return NoContent();
+    }
+
     /// <summary>
     /// Deletes an article by its ID.
     /// </summary>

@@ -292,27 +292,20 @@ public class ArticleController(ArticleRepo articleRepo, AppDbContext context) : 
             articleInDb.ArticleContentId = null;
         }
 
-        await _articleRepo.UpdateAsync(article);
-        return Ok(article);
-    }
+        await context.SaveChangesAsync();
 
-    [HttpPut("{id}/likes")]
-    public async Task<IActionResult> UpdateLikes(int id, [FromQuery] bool increment)
-    {
-        var article = await _articleRepo.GetByIdAsync(id);
-        if (article == null)
-        {
-            return NotFound("Article not found.");
-        }
+        articleInDb.ArticleContentId = updatedContent.Id;
 
-        await _articleRepo.UpdateLikesAsync(id, increment);
 
+        await context.SaveChangesAsync();
         return NoContent();
     }
 
-
-
-
+    /// <summary>
+    /// Deletes an article by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the article to delete.</param>
+    /// <returns>A NoContent result if successful, otherwise an error response.</returns>
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult<Article>> Delete(int id)

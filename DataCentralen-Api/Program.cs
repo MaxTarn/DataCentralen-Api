@@ -1,4 +1,4 @@
-using DataCentralen_Api.Db.Data; // Import the seeder
+using DataCentralen_Api.Db.Data;
 using DataCentralen_Api.DbContext;
 using DataCentralen_Db.Repo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -87,7 +87,6 @@ namespace DataCentralen_Api
 
             var app = builder.Build();
 
-            // Apply Migrations and Seed Data
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

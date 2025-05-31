@@ -100,11 +100,11 @@ namespace DataCentralen_Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseHttpsRedirection();
+            app.UseCors("Default");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("Default");
             app.MapControllers();
 
             app.Run();

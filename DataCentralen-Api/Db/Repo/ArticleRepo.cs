@@ -53,6 +53,38 @@ public class ArticleRepo(AppDbContext context)
         await _context.SaveChangesAsync();
     }
 
+    public async Task UpdateArticleContentAsync(int articleId, string newContent)
+    {
+        var article = await _context.Articles
+            .Include(a => a.ArticleContent)
+            .FirstOrDefaultAsync(a => a.Id == articleId);
+
+        if (article == null)
+            return;
+
+        if (article.ArticleContent != null)
+        {
+            article.ArticleContent.Content = newContent;
+            _context.Entry(article.ArticleContent).State = EntityState.Modified;
+        }
+        else
+        {
+            // If no ArticleContent exists, create one and link it
+            var contentModel = new ArticleContentModel
+            {
+                Content = newContent,
+                ArticleId = articleId
+            };
+            await _context.ArticleContents.AddAsync(contentModel);
+            article.ArticleContent = contentModel;
+            article.ArticleContentId = contentModel.Id;
+            _context.Entry(article).State = EntityState.Modified;
+        }
+
+        await _context.SaveChangesAsync();
+    }
+
+
     public async Task UpdateLikesAsync(int id, bool increment)
     {
         var article = await _context.Articles.FindAsync(id);

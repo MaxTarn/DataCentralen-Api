@@ -359,6 +359,61 @@ public class ArticleController(ArticleRepo articleRepo, AppDbContext context) : 
             dataStructures = structures
         });
     }
+
+
+    [Authorize]
+    [HttpPut("{id}/full-update")]
+    public async Task<IActionResult> UpdateArticleAndContent(int id, [FromBody] ArticleUpdateDTO dto)
+    {
+        if (id != dto.Id)
+            return BadRequest("ID mismatch.");
+
+        var article = await _articleRepo.GetByIdAsync(id);
+        if (article == null)
+            return NotFound("Article not found.");
+
+        // Update Article fields
+        article.Title = dto.Title;
+        article.Author = dto.Author;
+        article.Description = dto.Description;
+        article.Type = dto.Type;
+        article.ColorCodeOne = dto.ColorCodeOne;
+        article.ColorCodeTwo = dto.ColorCodeTwo;
+        article.LastEdited = DateTime.Now;
+
+        // Update or create ArticleContent
+        if (article.ArticleContent != null)
+        {
+            article.ArticleContent.Content = dto.Content;
+        }
+        else
+        {
+            var newContent = new ArticleContentModel
+            {
+                Content = dto.Content,
+                ArticleId = article.Id
+            };
+            // Add new content to context
+            await context.ArticleContents.AddAsync(newContent);
+            await context.SaveChangesAsync();
+            article.ArticleContentId = newContent.Id;
+        }
+
+        await _articleRepo.UpdateAsync(article);
+
+        return NoContent();
+    }
+
+
+
+
+
+
+
+
+
+
+
     //[Authorize]
     //[HttpPut("with-file/{id}")]
     //public async Task<IActionResult> UploadFile(int id, IFormFile file)
